@@ -11,16 +11,16 @@ if ! [ -d "${HOST_WS_PATH}/src" ]; then
     mkdir -p ${HOST_WS_PATH}/src
 fi
 
+xhost +local:docker
+
 docker run -it \
        --runtime=nvidia --gpus all \
        --env="DISPLAY" \
        --network="host" \
        --privileged \
-       --env="QT_X11_NO_MITSHM=1" \
-       --volume="/home/$USER:/home/$USER" \
        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-       --volume="${HOST_WS_PATH}:/home/$USER/work" \
-       --workdir="/home/$USER/work/" \
+       --volume="${HOST_WS_PATH}:/home/work" \
+       --workdir="/home/work/" \
        $1 \
        bash 
 
