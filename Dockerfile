@@ -38,6 +38,7 @@ ENV CMAKE_PREFIX_PATH "/opt/openrobots:$CMAKE_PREFIX_PATH"
 # RUN adduser --disabled-password --gecos '' docker
 RUN useradd -m docker
 RUN adduser docker sudo
+RUN adduser docker ros
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER docker
