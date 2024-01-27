@@ -1,5 +1,4 @@
-# FROM osrf/ros:kinetic-desktop-full-xenial
-FROM althack/ros2:humble-cuda-gazebo-nvidia-2023-02-15
+FROM justagist/ros2-cuda-with-cuda-toolkit:humble_base AS base
 
 ENV ROS_DISTRO=humble
 
@@ -16,10 +15,18 @@ ENV NVIDIA_VISIBLE_DEVICES \
 ENV NVIDIA_DRIVER_CAPABILITIES \
     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 
+RUN pip3 install --upgrade torch
+
+RUN apt-get update && apt-get install -q -y python3-tk
+
+RUN pip3 install --upgrade control inputs pin qpsolvers quadprog qpmpc upkie pygame pin-pink
+RUN pip3 install --upgrade importlib-resources setuptools_scm torchtyping tqdm trimesh warp-lang yourdfpy
+RUN pip3 install --upgrade pybullet
 
 # RUN adduser --disabled-password --gecos '' docker
 RUN useradd -m docker
 RUN adduser docker sudo
+RUN adduser docker ros
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER docker
